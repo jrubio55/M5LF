@@ -21,19 +21,19 @@ import org.junit.Ignore;
 public class ProvaConversor {
     
     //private Conversor conversor;
-    //private static Conversor conversor;
+    private static Conversor conversor;
 
     public ProvaConversor() {
     }
 
     @BeforeClass
     public static void setUpClass() {
-        //conversor = new Conversor();
+        conversor = new Conversor();
     }
 
     @AfterClass
     public static void tearDownClass() {
-        //conversor = null;
+        conversor = null;
     }
 
     @Before
@@ -51,30 +51,31 @@ public class ProvaConversor {
 
     @Test
     public final void testCelsiusAFherenheit() throws TemperaturaNoValidaException {
-        fail ("Sin implementar");
-        /*Conversor conversor = new Conversor();
-        assertEquals(32, conversor.celsiusAFharenheit(0), 0);*/
+        //fail ("Sin implementar");
+        //Conversor conversor = new Conversor();
+        assertEquals(32, conversor.celsiusAFharenheit(0), 0);
     }
 
     @Test
+    @Ignore
     public final void testCelsiusAReamur() throws TemperaturaNoValidaException {
-        fail ("Sin implementar");
-        /*Conversor conversor = new Conversor();
-        assertEquals(0, conversor.celsiusAReamur(0), 0);*/
+        //fail ("Sin implementar");
+        //Conversor conversor = new Conversor();
+        assertEquals(0, conversor.celsiusAReamur(0), 0);
     }
 
-    /*@Test
-    //@Test(expected=TemperaturaNoValidaException.class)
+    //@Test
+    @Test(expected=TemperaturaNoValidaException.class)
     public final void testTemperaturaNoValida() throws TemperaturaNoValidaException{
         //fail ("Sin implementar");
-        Conversor conversor = new Conversor();
-        assertEquals(0, conversor.celsiusAFharenheit(-400),0);
-    }*/
+        //Conversor conversor = new Conversor();
+        assertEquals(32, conversor.celsiusAFharenheit(-410),0);
+    }
     
     @Test
-    public final void testTemperaturaNoValida() throws TemperaturaNoValidaException {
+    public final void testTemperaturaNoValida2() throws TemperaturaNoValidaException {
         //fail ("Sin implementar");
-        Conversor conversor = new Conversor();
+        //Conversor conversor = new Conversor();
         try {
             assertEquals(32, conversor.celsiusAFharenheit(-400), 0);
             fail("Para temperaturas por encima de -273 la prueba debe pasar.");
