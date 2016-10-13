@@ -14,7 +14,7 @@ import conversortemperatura.*;
  * @author Jorge
  */
 
-public class ProvaExceptionsConversor {       
+public class ProvaExceptionsConversor {     
     //private Conversor conversor;
     private static Conversor conversor;
 
