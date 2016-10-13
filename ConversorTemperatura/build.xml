@@ -1,73 +1,130 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- You may freely edit this file. See commented blocks below for -->
-<!-- some examples of how to customize the build. -->
-<!-- (If you delete it and reopen the project it will be recreated.) -->
-<!-- By default, only the Clean and Build commands use this build script. -->
-<!-- Commands such as Run, Debug, and Test only use this build script if -->
-<!-- the Compile on Save feature is turned off for the project. -->
-<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
-<!-- in the project's Project Properties dialog box.-->
-<project name="ConversorTemperatura" default="default" basedir=".">
-    <description>Builds, tests, and runs the project ConversorTemperatura.</description>
-    <import file="nbproject/build-impl.xml"/>
-    <!--
-
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. They are: 
-
-      -pre-init:                 called before initialization of project properties
-      -post-init:                called after initialization of project properties
-      -pre-compile:              called before javac compilation
-      -post-compile:             called after javac compilation
-      -pre-compile-single:       called before javac compilation of single file
-      -post-compile-single:      called after javac compilation of single file
-      -pre-compile-test:         called before javac compilation of JUnit tests
-      -post-compile-test:        called after javac compilation of JUnit tests
-      -pre-compile-test-single:  called before javac compilation of single JUnit test
-      -post-compile-test-single: called after javac compilation of single JUunit test
-      -pre-jar:                  called before JAR building
-      -post-jar:                 called after JAR building
-      -post-clean:               called after cleaning build products
-
-    (Targets beginning with '-' are not intended to be called on their own.)
-
-    Example of inserting an obfuscator after compilation could look like this:
-
-        <target name="-post-compile">
-            <obfuscate>
-                <fileset dir="${build.classes.dir}"/>
-            </obfuscate>
-        </target>
-
-    For list of available properties check the imported 
-    nbproject/build-impl.xml file. 
-
-
-    Another way to customize the build is by overriding existing main targets.
-    The targets of interest are: 
-
-      -init-macrodef-javac:     defines macro for javac compilation
-      -init-macrodef-junit:     defines macro for junit execution
-      -init-macrodef-debug:     defines macro for class debugging
-      -init-macrodef-java:      defines macro for class execution
-      -do-jar:                  JAR building
-      run:                      execution of project 
-      -javadoc-build:           Javadoc generation
-      test-report:              JUnit report generation
-
-    An example of overriding the target for project execution could look like this:
-
-        <target name="run" depends="ConversorTemperatura-impl.jar">
-            <exec dir="bin" executable="launcher.exe">
-                <arg file="${dist.jar}"/>
-            </exec>
-        </target>
-
-    Notice that the overridden target depends on the jar target and not only on 
-    the compile target as the regular run target does. Again, for a list of available 
-    properties which you can use, check the target you are overriding in the
-    nbproject/build-impl.xml file. 
-
-    -->
+<project name="ConversorTemperatura" default="test_txt">
+    
+    <!-- Directorio del código fuente -->
+    <property name="src.dir" location="./src" />
+    
+    <!-- Directorio de clases compiladas -->
+    <property name="build.dir" location="mi_build" />
+    
+    <!-- Subdirectorio de las clases compiladas del proyecto -->
+    <property name="build.classes.dir" location="\${build.dir}/classes" />
+    
+    <!-- Directorio de las clases de prueba -->
+    <property name="test.dir" location="./test" />
+    
+    <!-- Subdirectorio de las clases compiladas de prueba -->
+    <property name="test.classes.dir" location="\${build.dir}/test-classes" />
+    
+    <!-- Directorio de las bibliotecas del proyecto -->
+    <property name="lib" location="C:\Program Files\NetBeans 8.1\platform\modules\ext" />
+    
+    <!-- Direstorio de informes -->
+    <property name="reports.dir" location="./reports" />
+    
+    <!-- Directorio para los informes en formato texto -->
+    <property name="reports.txt.dir" location="${reports.dir}/txt" />
+    
+    <!-- Directorio para los informes en formato xml -->
+    <property name="reports.xml.dir" location="${reports.dir}/xml" />
+    
+    <!-- Directorio de la documentación -->
+    <property name="reports.javadoc" location="${reports.dir}/javadoc" />
+    
+    <!-- Directorio para el fichero empaquetado -->
+    <property name="dist.dir" location="dist" />
+    
+    <!-- Directorio del fichero empaquetado -->
+    <property name="dist.name" value="ConversorTemperatura.jar" />
+    
+    <path id="test.compile.classpath">
+        <fileset dir="${lib}" includes="*.jar" />
+        <pathelement location="\${build.classes.dir}" />
+    </path>
+    
+    <path id="test.classpath">
+        <path refid="test.compile.classpath" />
+        <pathelement path="${test.classes.dir}" />
+    </path>
+    
+    <target name="empezando">
+        <echo>Empezando con ANT.</echo>
+    </target>
+    
+    <target name="compila" description="Compila el proyecto">
+        <mkdir dir="${build.classes.dir}" />
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" includeantruntime="false" />
+    </target>
+    
+    <target name="compila-tests" depends="compila" description="Compila los test">
+        <mkdir dir="${test.classes.dir}" />
+        <javac srcdir="${test.dir}" destdir="${test.classes.dir}" includeantruntime="false">
+            <classpath refid="test.compile.classpath" />
+        </javac>
+    </target>
+    
+    <target name="test_txt" depends="compila-tests" description="Ejecuta los tests unitarios">
+        <mkdir dir="${reports.dir}" />
+        <mkdir dir="${reports.txt.dir}" />
+        <junit printsummary="true" haltonfailure="false" failureproperty="test.failures">
+            <classpath refid="test.classpath" />
+            <formatter type="plain" />
+            <test name="provesconversortemperatura.AllTests" todir="${reports.txt.dir}" />
+        </junit>
+    </target>
+    
+    <target name="test_xml" depends="compila-tests" description="Ejecuta los tests unitarios">
+        <mkdir dir="${reports.dir}" />
+        <mkdir dir="${reports.xml.dir}" />
+        <junit printsummary="true" haltonfailure="false" failureproperty="test.failures">
+            <classpath refid="test.classpath" />
+            <formatter type="xml" />
+            <test name="provesconversortemperatura.AllTests" todir="${reports.xml.dir}" />
+        </junit>
+    </target>
+    
+    <target name="test_especifico" depends="compila-tests" description="Ejecuta los tests unitarios">
+        <mkdir dir="${reports.dir}" />
+        <mkdir dir="${reports.txt.dir}" />
+        <junit printsummary="true" haltonfailure="false" failureproperty="test.failures">
+            <classpath refid="test.classpath" />
+            <formatter type="plain" />
+            <batchtest todir="${reports.txt.dir}">
+                <fileset dir="${test.classes.dir}">
+                    <include name="**/Prova*.class" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+    
+    <target name="documentacion" depends="compila" description="Genera la documentación del proyecto.">
+        <javadoc sourcepath="${src.dir}" destdir="${reports.javadoc}" 
+                author="true" version="true" use="true" access="private"
+                linksource="true" encoding="ISO-8859-1" windowtitle="${ant.project.name}">
+            <classpath>
+                <pathelement path="${test.classes.dir}" />
+                <pathelement path="${build.classes.dir}" />
+            </classpath>
+        </javadoc>
+    </target>
+    
+    <target name="empaqueta" depends="compila" description="Genera el fichero jar">
+        <mkdir dir="${dist.dir}" />
+        <jar destfile="${dist.dir}/\${dist.name}">
+            <fileset dir="${build.classes.dir}" />
+            <manifest>
+                <attribute name="Main-Class" value="conversortemperatura.ConversorTemperatura" />
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="ejecuta" depends="empaqueta" description="Ejecuta la aplicación.">
+        <java jar="${dist.dir}/${dist.name}" fork="true" />
+    </target>
+    
+    <target name="limpiar" description="Limpeiza del proyecto">
+        <delete dir="\${dist.dir}" />
+        <delete dir="\${build.dir}" />
+        <delete dir="\${reports.dir}" />
+    </target>
+    
 </project>

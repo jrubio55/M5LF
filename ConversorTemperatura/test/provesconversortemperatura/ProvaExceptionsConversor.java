@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package provesconversortemperatura;
 
 import conversortemperatura.TemperaturaNoValidaException;
 import org.junit.After;
@@ -12,18 +8,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import conversortemperatura.*;
-import org.junit.Ignore;
 
 /**
  *
  * @author Jorge
  */
-public class ProvaConversor {
-    
+
+public class ProvaExceptionsConversor {       
     //private Conversor conversor;
     private static Conversor conversor;
 
-    public ProvaConversor() {
+    public ProvaExceptionsConversor() {
     }
 
     @BeforeClass
@@ -49,30 +44,14 @@ public class ProvaConversor {
     // The methods must be annotated with annotation @Test. For example:
     //
 
-    @Test
-    public final void testCelsiusAFherenheit() throws TemperaturaNoValidaException {
-        //fail ("Sin implementar");
-        //Conversor conversor = new Conversor();
-        assertEquals(32, conversor.celsiusAFharenheit(0), 0);
-    }
-
-    @Test
-    @Ignore
-    public final void testCelsiusAReamur() throws TemperaturaNoValidaException {
-        //fail ("Sin implementar");
-        //Conversor conversor = new Conversor();
-        assertEquals(0, conversor.celsiusAReamur(0), 0);
-    }
-
-    //@Test
     @Test(expected=TemperaturaNoValidaException.class)
     public final void testTemperaturaNoValida() throws TemperaturaNoValidaException{
         //fail ("Sin implementar");
         //Conversor conversor = new Conversor();
-        assertEquals(32, conversor.celsiusAFharenheit(-410),0);
+        assertEquals(32, conversor.celsiusAFharenheit(-400),0);
     }
     
-    @Test
+    @Test    
     public final void testTemperaturaNoValida2() throws TemperaturaNoValidaException {
         //fail ("Sin implementar");
         //Conversor conversor = new Conversor();
