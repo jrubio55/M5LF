@@ -1,5 +1,4 @@
 <project name="ConversorTemperatura" default="test_txt">
-    
     <!-- Directorio del código fuente -->
     <property name="src.dir" location="./src" />
     
@@ -46,13 +45,9 @@
         <pathelement path="${test.classes.dir}" />
     </path>
     
-    <target name="empezando">
-        <echo>Empezando con ANT.</echo>
-    </target>
-    
     <target name="compila" description="Compila el proyecto">
         <mkdir dir="${build.classes.dir}" />
-        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" includeantruntime="false" />
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" includeantruntime="false" />        
     </target>
     
     <target name="compila-tests" depends="compila" description="Compila los test">
@@ -96,7 +91,7 @@
         </junit>
     </target>
     
-    <target name="documentacion" depends="compila" description="Genera la documentación del proyecto.">
+    <target name="documentacion" depends="test_xml, test_txt" description="Genera la documentación del proyecto.">
         <javadoc sourcepath="${src.dir}" destdir="${reports.javadoc}" 
                 author="true" version="true" use="true" access="private"
                 linksource="true" encoding="ISO-8859-1" windowtitle="${ant.project.name}">
@@ -107,7 +102,7 @@
         </javadoc>
     </target>
     
-    <target name="empaqueta" depends="compila" description="Genera el fichero jar">
+    <target name="empaqueta" depends="documentacion" description="Genera el fichero jar">
         <mkdir dir="${dist.dir}" />
         <jar destfile="${dist.dir}/\${dist.name}">
             <fileset dir="${build.classes.dir}" />
@@ -121,10 +116,10 @@
         <java jar="${dist.dir}/${dist.name}" fork="true" />
     </target>
     
-    <target name="limpiar" description="Limpeiza del proyecto">
+    <target name="limpia" description="Limpieza del proyecto">
         <delete dir="\${dist.dir}" />
         <delete dir="\${build.dir}" />
         <delete dir="\${reports.dir}" />
     </target>
-    
+ 
 </project>
